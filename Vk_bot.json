@@ -1,0 +1,446 @@
+[
+    {
+        "id": "b719385365abbf8a",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "Подготовка запроса к VK",
+        "func": "// Настройки VK API\nconst token = '';\nconst peer_id = '';\nconst version = '';\n\n// Текст сообщения из payload\nconst text = msg.payload;\n\n// Генерируем random_id (уникальный идентификатор сообщения)\nconst random_id = Date.now(); // Используем текущее время в мс\n\n// Формируем URL для запроса\nmsg.url = `https://api.vk.com/method/messages.send?peer_id=${peer_id}&message=${encodeURIComponent(text)}&random_id=${random_id}&access_token=${token}&v=${version}`;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 900,
+        "wires": [
+            [
+                "c56f3e5365dce008"
+            ]
+        ]
+    },
+    {
+        "id": "c56f3e5365dce008",
+        "type": "http request",
+        "z": "00ba59b3853ff96b",
+        "name": "Отправить в VK",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 1180,
+        "y": 900,
+        "wires": [
+            [
+                "8cbf1f576134338e"
+            ]
+        ]
+    },
+    {
+        "id": "72a0bd6861043a2f",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "Датчики  (true)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 130,
+        "y": 820,
+        "wires": [
+            [
+                "3d54907ccd814a6e",
+                "7a75e8773cd14496",
+                "8e043abfab67ed5e",
+                "49d35a35c6cf74b2"
+            ]
+        ]
+    },
+    {
+        "id": "7a2c07d00bc0350c",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "Датчики (false)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 120,
+        "y": 860,
+        "wires": [
+            [
+                "3d54907ccd814a6e",
+                "7a75e8773cd14496"
+            ]
+        ]
+    },
+    {
+        "id": "3d54907ccd814a6e",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№1",
+        "func": "msg.topic = \"Н1.1\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 820,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "7a75e8773cd14496",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№2",
+        "func": "msg.topic = \"Н1.2\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 860,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "51b9e0f8d4997c67",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "6",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "6",
+        "payloadType": "num",
+        "x": 110,
+        "y": 1040,
+        "wires": [
+            [
+                "52bfb1b7a4e59be0",
+                "ad26dc878fcf0f6d"
+            ]
+        ]
+    },
+    {
+        "id": "47cee9ac0092edc4",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "15",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "15",
+        "payloadType": "num",
+        "x": 110,
+        "y": 1000,
+        "wires": [
+            [
+                "52bfb1b7a4e59be0",
+                "ad26dc878fcf0f6d"
+            ]
+        ]
+    },
+    {
+        "id": "52bfb1b7a4e59be0",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№5 ",
+        "func": "if (msg.payload < 7.5) {\n    msg.payload = true;\n} else {\n    msg.payload = false;\n}\nmsg.topic = \"Т 2.4\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1000,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "ad26dc878fcf0f6d",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№6",
+        "func": "if (msg.payload < 10.5) {\n    msg.payload = true;\n} else {\n    msg.payload = false;\n}\nmsg.topic = \"Т 2.5\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 1040,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "17200225544825d9",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "Датчики  (true)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 130,
+        "y": 900,
+        "wires": [
+            [
+                "8e043abfab67ed5e",
+                "49d35a35c6cf74b2"
+            ]
+        ]
+    },
+    {
+        "id": "549648c5de9871fc",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "Датчики (false)",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 120,
+        "y": 940,
+        "wires": [
+            [
+                "8e043abfab67ed5e",
+                "49d35a35c6cf74b2"
+            ]
+        ]
+    },
+    {
+        "id": "8e043abfab67ed5e",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№3",
+        "func": "msg.topic = \"P2.1\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 900,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "49d35a35c6cf74b2",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "№4",
+        "func": "msg.topic = \"P2.2\"; // Присваиваем ID датчика\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 960,
+        "wires": [
+            [
+                "c60fd0f3fdaa8478"
+            ]
+        ]
+    },
+    {
+        "id": "c60fd0f3fdaa8478",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "Хранение и формирование текста ",
+        "func": "// Инициализация хранилища\nif (!global.fileStorage) {\n    global.fileStorage = {\n        read: function (path) {\n            try {\n                return JSON.parse(global.get('file_' + path) || '{}');\n            } catch (e) {\n                node.error('Ошибка чтения файла:', e);\n                return {};\n            }\n        },\n        write: function (path, data) {\n            global.set('file_' + path, JSON.stringify(data));\n        }\n    };\n}\n\nconst storagePath = 'alarms_storage';\n\nconst storage = {\n    get: function (key) {\n        const data = global.fileStorage.read(storagePath);\n        return data[key] || {};\n    },\n    set: function (key, value) {\n        const data = global.fileStorage.read(storagePath);\n        data[key] = value;\n        global.fileStorage.write(storagePath, data);\n    }\n};\n\ntry {\n    // Инициализация с разделением на текущие и предыдущие состояния\n    if (Object.keys(storage.get('alarms')).length === 0) {\n        storage.set('alarms', {});\n        storage.set('previousStates', {});  // Добавляем хранилище для предыдущих состояний\n        storage.set('pendingChanges', {});\n    }\n\n    const alarmId = msg.topic.toString();\n    const newStatus = msg.payload;\n    const alarms = storage.get('alarms');\n    const previousStates = storage.get('previousStates');  // Получаем предыдущие состояния\n\n    // Сохраняем текущее состояние перед изменением\n    if (alarms[alarmId] !== undefined) {\n        previousStates[alarmId] = alarms[alarmId];\n    }\n\n    // Проверка изменения состояния\n    if (alarms[alarmId] === newStatus) return null;\n\n    // Фиксация изменений\n    const pendingChanges = storage.get('pendingChanges');\n    pendingChanges[alarmId] = newStatus;\n    storage.set('pendingChanges', pendingChanges);\n    storage.set('previousStates', previousStates);  // Сохраняем предыдущие состояния\n\n    // Группировка сообщений\n    if (!context.get('timeout')) {\n        context.set('timeout', true);\n\n        setTimeout(() => {\n            context.set('timeout', false);\n\n            const currentAlarms = storage.get('alarms');\n            const allChanges = storage.get('pendingChanges');\n            const prevStates = storage.get('previousStates');  // Получаем предыдущие состояния\n\n            let message = \"Объект №1🏠\\n\\n\";\n            const resolved = [];\n            const newAlarms = [];\n\n            for (const [id, status] of Object.entries(allChanges)) {\n                const wasActive = prevStates[id] === true;  // Используем предыдущее состояние\n                if (wasActive && !status) resolved.push(`${id} в норме ✔️`);\n                if (!wasActive && status) newAlarms.push(`Авария в ${id}❗`);\n                currentAlarms[id] = status;\n            }\n\n            if (resolved.length > 0) message += \"Устранены аварии ✅:\\n\" + resolved.join('\\n') + \"\\n\\n\";\n            if (newAlarms.length > 0) message += \"Новые аварии 🔴:\\n\" + newAlarms.join('\\n') + \"\\n\\n\";\n            message += `Активных аварий🚨: ${Object.values(currentAlarms).filter(s => s).length}`;\n\n            storage.set('alarms', currentAlarms);\n            storage.set('pendingChanges', {});\n\n            node.send({ payload: message });\n        }, 100);\n    }\n} catch (err) {\n    node.error('Ошибка обработки:', err);\n}\n\nreturn null;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 680,
+        "y": 900,
+        "wires": [
+            [
+                "b719385365abbf8a"
+            ]
+        ]
+    },
+    {
+        "id": "be8b8267a4d8789f",
+        "type": "function",
+        "z": "00ba59b3853ff96b",
+        "name": "Сброс аварий",
+        "func": "// Подключаемся к тому же хранилищу, что и основной код\nconst storagePath = 'alarms_storage';\n\n// Создаем обертку для работы с хранилищем (такая же как в основном коде)\nif (!global.fileStorage) {\n    global.fileStorage = {\n        read: function(path) {\n            try {\n                return JSON.parse(global.get('file_' + path) || '{}');\n            } catch (e) {\n                node.error('Ошибка чтения:', e);\n                return {};\n            }\n        },\n        write: function(path, data) {\n            global.set('file_' + path, JSON.stringify(data));\n        }\n    };\n}\n\n// Полный сброс всех состояний\nconst storage = {\n    set: function(key, value) {\n        const data = global.fileStorage.read(storagePath);\n        data[key] = value;\n        global.fileStorage.write(storagePath, data);\n    }\n};\n\n// Очищаем ВСЕ данные\nstorage.set('alarms', {});\nstorage.set('previousStates', {});\nstorage.set('pendingChanges', {});\n\n// Отправляем подтверждение\nmsg.payload = \"✅ Все аварии и история состояний сброшены!\";\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 920,
+        "y": 960,
+        "wires": [
+            [
+                "3a52e75ec6fa486e"
+            ]
+        ]
+    },
+    {
+        "id": "14210d9e4d46468e",
+        "type": "inject",
+        "z": "00ba59b3853ff96b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 680,
+        "y": 960,
+        "wires": [
+            [
+                "be8b8267a4d8789f"
+            ]
+        ]
+    },
+    {
+        "id": "3a52e75ec6fa486e",
+        "type": "debug",
+        "z": "00ba59b3853ff96b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "8cbf1f576134338e",
+        "type": "debug",
+        "z": "00ba59b3853ff96b",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1340,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "c60a3f1e40781f46",
+        "type": "comment",
+        "z": "00ba59b3853ff96b",
+        "name": "Примечание",
+        "info": "1. Все inject сделаны для теста, если нужно подключить узел который передает данные то это делается самостоятельно!\n2. Датчики №4 и №5 построены на функции определения допустимой температуры, также можно будет настроить для других числовых проверок.\n3. Для самой отправки нам понадобятся peer id, token, и правильно указать version.\n4. Представлена ещё небольшая функция которая стирает все записи об авариях.",
+        "x": 130,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "a044389091fb324b",
+        "type": "comment",
+        "z": "00ba59b3853ff96b",
+        "name": "Примечание",
+        "info": "1. В этой функций мы подставляем все данные о Vk боте",
+        "x": 970,
+        "y": 860,
+        "wires": []
+    }
+]
